@@ -4,14 +4,16 @@ using Finanzas_TF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Finanzas_TF.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210829233014_Crear_Tabla_Recibo_Honorarios")]
+    partial class Crear_Tabla_Recibo_Honorarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace Finanzas_TF.Data.Migrations
 
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("prueba")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Finanzas_TF.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ namespace Finanzas_TF.Data
             : base(options)
         {
         }
+        public DbSet<ReciboHonorarios> ReciboHonorarios { set; get; }
+        public DbSet<Cliente> ReciboHonorarios { set; get; }
     }
 }
