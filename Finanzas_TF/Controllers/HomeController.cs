@@ -1,4 +1,5 @@
 ﻿using Finanzas_TF.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Finanzas_TF.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

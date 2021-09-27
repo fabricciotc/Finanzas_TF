@@ -1,4 +1,5 @@
 using Finanzas_TF.Data;
+using Finanzas_TF.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,9 +33,13 @@ namespace Finanzas_TF
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<Usuario, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddRoles<IdentityRole>().AddRoleManager<RoleManager<IdentityRole>>().AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
             services.AddControllersWithViews();
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/identity/login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,10 +66,12 @@ namespace Finanzas_TF
 
             app.UseEndpoints(endpoints =>
             {
+
+
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                    pattern: "{controller=Identity}/{action=Login}/{id?}");
+
             });
         }
     }
