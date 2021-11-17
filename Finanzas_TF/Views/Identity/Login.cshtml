@@ -16,49 +16,46 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/js/bootstrap.js">
     <link rel="stylesheet" href="~/css/login.css">
 
-    <title>Finanzas | Login</title>
-    <link rel="icon" href="~/favicon2.ico">
+    <title>eFinance: Login</title>
+    <link rel="icon" href="~/logo.png" asp-append-version="true">
 </head>
 <body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="blue facebook"><img width="100" src="~/lg2.png" /></p>
-                <p class="black p_under_fb">Bienvenido al Panel del Finanzas, ingresa con tu email y contraseña como invitado o usuario frecuente.</p>
+    <div>
+        <div class="row" style="justify-content:center">
+            <div class="col-md-4">
+                    <p class="blue facebook" style="margin:10%;text-align:center"><img width="100" src="~/logo.png" /></p>
+                <div class="panel" style="height: auto; min-height: 362px">
+                    <p class="black" style="font-size:13px">¡Bienvenido 👋 a la web de <b>eFinance</b>! Ingresa con tu email y contraseña como invitado o usuario frecuente.</p>
 
-            </div>
-
-            <div class="col-md-6">
-                <div class="panel" style="        height: 362px">
-                    @using (Html.BeginForm("login", "identity", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "frm" , id="frm"}))
+                    @using (Html.BeginForm("login", "identity", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "frm", id = "frm" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger", style = "font-size: 12px;text-align:center; align-content:center" })
                         <div id="formulario">
-                        <div>
-                            <p style="font-size: 20px; font-weight: 600;">
-                                Correo Electronico
-                            </p>
-                        </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Ingrese su Correo Electronico" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
-                        <div style="font-size: 20px; font-weight: 600;">
-                            <p>Contraseña</p>
-                        </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "Ingrese su Contraseña" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                        @if (ViewBag.Error != null)
-                        {
-                            <p class="text-danger">@ViewBag.Error</p>
-                        }
-                        <input type="submit" class="btn btn-danger btn-lg btn1" value="Ingresar" style="font-weight:bold"></input>
-                        <p class="text-center mdpo blue" style="        font-size: 1rem">¿Olvido su Contraseña?</p>
-                        <hr>
+                            <div>
+                                <p style=" font-size: 16px; font-weight: 500; margin: 5px 0px;">
+                                    Correo Electronico
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Ingrese su Correo Electronico" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div style="font-size: 16px; font-weight: 500; margin: 5px 0px; margin-bottom: -10px; ">
+                                <p>Contraseña</p>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "Ingrese su Contraseña" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                            @if (ViewBag.Error != null)
+                            {
+                                <p class="text-danger" style="font-size: 12px;text-align:center; align-content:center">@ViewBag.Error</p>
+                            }
+                            <input type="submit" class="btn btn-primary btn-lg" value="Ingresar" style="font-weight:bold; width:100%"></input>
+                            <p class="text-center mdpo blue" style="font-size: 1rem">¿No tienes una cuenta? Registrate</p>
+                            <hr>
                         </div>
                         <div id="carga" style="display:none; margin:115px; justify-self:center;justify-content:center">
                             <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>

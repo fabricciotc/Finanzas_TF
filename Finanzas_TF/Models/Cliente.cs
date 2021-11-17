@@ -11,7 +11,7 @@ namespace Finanzas_TF.Models
         [Key]
         public Guid Id { set; get; }
         [Required]
-        public string Fullname { set; get; }
+        public string RazonSocial { set; get; }
         [StringLength(450)]
         [Required]
         public string RUC { set; get; }
@@ -19,7 +19,7 @@ namespace Finanzas_TF.Models
         public string Email { set; get; }
         [Required]
         public string Telefono { set; get; }
-        public List<ReciboHonorarios> Ventas { set; get; }
+        public List<ReciboHonorarios> Recibos { set; get; }
         public string Direccion { set; get; }
     }
 }

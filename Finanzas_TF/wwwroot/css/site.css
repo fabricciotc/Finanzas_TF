@@ -69,3 +69,33 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.fcard {
+    font-size: 14px;
+    padding: 10px;
+    border-top: none;
+    border-radius: 20px;
+    position: relative;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 0 solid rgba(34, 41, 47, 0.125);
+    border-radius: 0.428rem !important;
+    margin-bottom: 0;
+    border-bottom-left-radius: 0.357rem;
+    border-bottom-right-radius: 0.357rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+    transition: all 0.3s ease-in-out, background 0s, color 0s, border-color 0s;
+}
+    .fcard thead {
+        background: #f3f2f7;
+        text-transform: uppercase;
+        font-size: 12px;
+        border: transparent;
+        border-radius: 0.428rem !important;
+    }
+.table td, .table th{
+    border-top:0px !important;
+}
