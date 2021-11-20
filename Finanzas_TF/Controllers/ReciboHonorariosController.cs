@@ -59,11 +59,21 @@ namespace Finanzas_TF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Monto,Descripcion,IdCliente,FechaEmision,FechaPago,Moneda")] ReciboHonorarios reciboHonorarios)
+        public async Task<IActionResult> Create([Bind("Id,MontoInicial,Descripcion,IdCliente,FechaEmision,FechaPago,Moneda")] ReciboHonorarios reciboHonorarios)
         {
             if (ModelState.IsValid)
             {
                 reciboHonorarios.Id = Guid.NewGuid();
+                if (reciboHonorarios.MontoInicial > 1500)
+                {
+                    reciboHonorarios.Retenido = reciboHonorarios.MontoInicial * (decimal)0.08;
+                    reciboHonorarios.Monto = reciboHonorarios.MontoInicial * (decimal)0.92;
+                }
+                else
+                {
+                    reciboHonorarios.Retenido = 0;
+                    reciboHonorarios.Monto = reciboHonorarios.MontoInicial;
+                }
                 _context.Add(reciboHonorarios);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,7 +104,7 @@ namespace Finanzas_TF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Monto,Descripcion,IdCliente,FechaEmision,FechaPago")] ReciboHonorarios reciboHonorarios)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,MontoInicial,Descripcion,IdCliente,FechaEmision,FechaPago")] ReciboHonorarios reciboHonorarios)
         {
             if (id != reciboHonorarios.Id)
             {
@@ -105,6 +115,16 @@ namespace Finanzas_TF.Controllers
             {
                 try
                 {
+                    if (reciboHonorarios.MontoInicial > 1500)
+                    {
+                        reciboHonorarios.Retenido = reciboHonorarios.MontoInicial * (decimal)0.08;
+                        reciboHonorarios.Monto = reciboHonorarios.MontoInicial * (decimal)0.92;
+                    }
+                    else
+                    {
+                        reciboHonorarios.Retenido = 0;
+                        reciboHonorarios.Monto = reciboHonorarios.MontoInicial;
+                    }
                     _context.Update(reciboHonorarios);
                     await _context.SaveChangesAsync();
                 }

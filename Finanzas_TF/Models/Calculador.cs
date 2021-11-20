@@ -12,5 +12,6 @@ namespace Finanzas_TF.Models
         public decimal TEA { set; get; }
         public int Anio { set; get; }
         public decimal Dolar { set; get; }
+        public int Tasa { set; get; }
     }
 }

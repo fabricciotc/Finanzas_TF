@@ -9,6 +9,8 @@ namespace Finanzas_TF.Models
     public class ReciboHonorarios
     { 
         public Guid Id { set; get; }
+        public decimal MontoInicial { set; get; }
+        public decimal Retenido { set; get; }
         public decimal Monto { set; get; }
         public int Moneda { set; get; }
         public string Descripcion { set; get; }

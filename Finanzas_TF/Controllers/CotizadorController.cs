@@ -28,10 +28,17 @@ namespace Finanzas_TF.Controllers
         [HttpPost]
         public async Task<IActionResult> Calculo(Calculador c)
         {
+            if (c.Tasa == 1)
+            {
+                var div = (double)(c.TEA / 1200);
+                var tg = Math.Pow((double)(1 + (div)), 12.00) - 1;
+                c.TEA = (decimal)tg * 100;
+            }
             ViewBag.gInicial = c.gInicio;
             ViewBag.gFinal = c.gFinal;
             ViewBag.TEA = c.TEA;
             ViewBag.anio = c.Anio;
+            ViewBag.dolar = c.Dolar;
             var applicationDbContext =await _context.ReciboHonorarios.Include(r => r.Cliente).Where(c => c.FechaPago.Date > DateTime.Now.Date).ToListAsync();
             var ListFinal = new List<ReciboHonorariosCalculo>();
             foreach (var item in applicationDbContext)
