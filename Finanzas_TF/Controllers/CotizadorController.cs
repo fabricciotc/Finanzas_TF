@@ -117,7 +117,30 @@ namespace Finanzas_TF.Controllers
                 var difd = (double) (item.FechaPago.Date - c.FechaDescuento).TotalDays; 
                 var tep = (decimal) (Math.Pow((double)(1 + c.TEA / 100),  difd / 360 ) - 1) * 100;
                 var dTep = (decimal) ( ( (tep/100) / (1 + (tep/100)) )*100 );
-                var monto = (item.Moneda == 0 ? item.Monto : item.Monto * c.Dolar);
+                var monto = item.Monto;
+
+                if (c.Moneda == 0) //soles
+                {
+                    if (item.Moneda == 0)//soles
+                    {
+                        
+                    }
+                    else//dolares
+                    {
+                        monto = monto * c.Dolar;
+                    }
+                }
+                else //dolares
+                {
+                    if (item.Moneda == 0)//soles
+                    {
+                        monto = monto / c.Dolar;
+                    }
+                    else//dolares
+                    {
+                        
+                    }
+                }
 
                 ListFinal.Add(new ReciboHonorariosCalculo
                 {
