@@ -7,18 +7,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Finanzas_TF.Data.Migrations
+namespace Finanzas_TF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210927024841_login")]
-    partial class login
+    [Migration("20211123011452_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Finanzas_TF.Models.Cliente", b =>
@@ -34,14 +34,14 @@ namespace Finanzas_TF.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Fullname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RUC")
                         .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RazonSocial")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
@@ -58,18 +58,33 @@ namespace Finanzas_TF.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ClienteId")
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaEmision")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaPago")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("IdCliente")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("FechaSubida")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Moneda")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("MontoInicial")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Retenido")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("IdCliente");
 
                     b.ToTable("ReciboHonorarios");
                 });
@@ -275,9 +290,13 @@ namespace Finanzas_TF.Data.Migrations
 
             modelBuilder.Entity("Finanzas_TF.Models.ReciboHonorarios", b =>
                 {
-                    b.HasOne("Finanzas_TF.Models.Cliente", null)
-                        .WithMany("Ventas")
-                        .HasForeignKey("ClienteId");
+                    b.HasOne("Finanzas_TF.Models.Cliente", "Cliente")
+                        .WithMany("Recibos")
+                        .HasForeignKey("IdCliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -333,7 +352,7 @@ namespace Finanzas_TF.Data.Migrations
 
             modelBuilder.Entity("Finanzas_TF.Models.Cliente", b =>
                 {
-                    b.Navigation("Ventas");
+                    b.Navigation("Recibos");
                 });
 #pragma warning restore 612, 618
         }

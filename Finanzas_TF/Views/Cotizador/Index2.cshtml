@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Finanzas_TF.Models.ReciboHonorarios>
 
 @{
-    ViewData["Title"] = "Cotizador 🧮 de Recibos";
+    ViewData["Title"] = "Cotizador 🧮 de Recibo (Entrada datos)";
 }
 
 
@@ -16,7 +16,7 @@
 
              Tipo de Tasa:
             <div class="input-group mb-3">
-                <select class="form-control" name="Tasa">
+                <select class="form-control" name="TipoDeTasa">
                     <option value=1>Nominal</option>
                     <option value=0 selected>Efectiva</option>
                 </select>
@@ -35,7 +35,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text">S/</span>
                 </div>
-                <input type="text" disabled class="form-control disabled" aria-label="">
+                <input type="text" disabled class="form-control disabled" aria-label="" name="ValorARecibir">
             </div>
 
         </div>
@@ -49,7 +49,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text">%</span>
                 </div>
-                <input type="number" step="0.01" name="TEA" class="form-control" aria-label="">
+                <input type="number" step="0.01" name="Tasa" class="form-control" aria-label="">
             </div>
 
             Cotización Dolar:
@@ -57,7 +57,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text">S/</span>
                 </div>
-                <input type="number" step="0.01" name="dolar" class="form-control" aria-label="" value="4.00">
+                <input type="number" step="0.01" name="Dolar" class="form-control" aria-label="" value="4.00">
             </div>
 
             TCEA:
@@ -65,15 +65,14 @@
                 <div class="input-group-append">
                     <span class="input-group-text">%</span>
                 </div>
-                <input type="number" step="0.01" name="dolar" class="form-control disabled" disabled aria-label=""
-                    value="@ViewBag.TCEA">
+                <input type="number" step="0.01" name="TCEA" class="form-control disabled" disabled aria-label="">
             </div>
 
         </div>
 
         <div class="col-lg-3">
 
-            Tipo de Año:
+            Tipo de Año de la tasa:
             <div class="input-group mb-3">
                 <select class="form-control" name="Anio">
                     <option value="360" selected>Ordinario</option>
@@ -94,7 +93,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text">%</span>
                 </div>
-                <input type="text" class="form-control disabled" disabled aria-label="" value="@ViewBag.TEA">
+                <input type="text" class="form-control disabled" disabled aria-label="" name="TEA">
             </div>
 
         </div>
@@ -103,7 +102,7 @@
 
             Fecha descuento:
             <div class="input-group mb-3">
-                <input class="form-control" type="date" />
+                <input class="form-control" name="FechaDescuento" type="date">
             </div>
 
             Costes Finales:
@@ -155,6 +154,9 @@
             <th>
                 Flujo
             </th>
+            <th>
+                TCEA
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -165,13 +167,13 @@
                     @(item.Cliente.RUC +" - "+ item.Cliente.RazonSocial)
                 </td>
                 <td>
-                    @(item.Moneda==0?"S/":"$")@Html.DisplayFor(modelItem => item.Monto)
+                    @(item.Moneda==0?"S/":"$")@Html.DisplayFor(modelItem =>item.Monto)
                 </td>
                 <td>
                     @(item.FechaPago.ToString("dd/MM/yyyy"))
                 </td>
-                <td style="font-weight:700; color:@(item.FechaPago.Date <= DateTime.Now.Date?"red":"green")">
-                    @(item.FechaPago.Date <= DateTime.Now.Date?"Pagado":(item.FechaPago.Date-DateTime.Now.Date).TotalDays)
+                <td id="DIAS">
+                    -
                 </td>
                 <td id="TEP">
                     -
@@ -195,6 +197,9 @@
                     -
                 </td>
                 <td id="FLUJO">
+                    -
+                </td>
+                <td id="TCEA">
                     -
                 </td>
             </tr>

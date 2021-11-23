@@ -8,9 +8,8 @@ namespace Finanzas_TF.Models
 {
     public class ReciboHonorariosCalculo
     { 
-        public decimal Monto { set; get; }
-
         public string NombreCliente { set; get; }
+        public decimal Monto { set; get; }
         public DateTime FechaPago { set; get; }
         public int dias { set; get; }
         public decimal TEP { set; get; }
@@ -21,5 +20,6 @@ namespace Finanzas_TF.Models
         public decimal ValorNeto { set; get; }
         public decimal ValorRecibir { set; get; }
         public decimal Flujo { set; get; }
+        public decimal TCEAUnit { set; get; }
     }
 }

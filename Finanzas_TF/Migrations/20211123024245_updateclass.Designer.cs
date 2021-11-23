@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Finanzas_TF.Data.Migrations
+namespace Finanzas_TF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211119010416_recibosnew")]
-    partial class recibosnew
+    [Migration("20211123024245_updateclass")]
+    partial class updateclass
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

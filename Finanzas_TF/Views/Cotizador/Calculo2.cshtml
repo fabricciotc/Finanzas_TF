@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Finanzas_TF.Models.ReciboHonorariosCalculo>
 
 @{
-    ViewData["Title"] = "Cotizador 🧮 de Recibos";
+    ViewData["Title"] = "Cotizador 🧮 de Recibo (Resultado)";
 }
 
 
@@ -16,17 +16,29 @@
 
         Tipo de Tasa:
         <div class="input-group mb-3">
-            <select class="form-control" name="Tasa">
-                <option value=1>Nominal</option>
-                <option value=0 selected>Efectiva</option>
+            <select class="form-control" name="Tasa" disabled>
+                @if (ViewBag.TipoDeTasa == 1)
+                {
+                    <option value=1 selected>Nominal</option>
+                }
+                else
+                {
+                    <option value=0 selected>Efectiva</option>
+                }
             </select>
         </div>
 
         Moneda:
         <div class="input-group mb-3">
-            <select class="form-control" name="Moneda">
-                <option value=0 selected>Soles (S/.)</option>
-                <option value=1>Dolares ($)</option>
+            <select class="form-control" name="Moneda" disabled>
+                @if (ViewBag.Moneda == 0)
+                {
+                    <option value=0 selected>Soles (S/.)</option>
+                }
+                else
+                {
+                    <option value=1 selected>Dolares ($)</option>
+                }
             </select>
         </div>
 
@@ -35,7 +47,7 @@
             <div class="input-group-append">
                 <span class="input-group-text">S/</span>
             </div>
-            <input type="text" disabled class="form-control disabled" aria-label=""
+            <input type="text" disabled class="form-control disabled" aria-label="" name="ValorARecibir"
                 value="@Model.Sum(c=>c.ValorRecibir)">
         </div>
 
@@ -48,7 +60,7 @@
             <div class="input-group-append">
                 <span class="input-group-text">%</span>
             </div>
-            <input type="number" step="0.01" name="TEA" class="form-control" aria-label="">
+            <input type="number" step="0.01" name="Tasa" class="form-control" aria-label="" value="@ViewBag.Tasa" disabled>
         </div>
 
         Cotización Dolar:
@@ -56,8 +68,7 @@
             <div class="input-group-append">
                 <span class="input-group-text">S/</span>
             </div>
-            <input type="number" step="0.01" name="dolar" class="form-control disabled" disabled aria-label=""
-                value="@ViewBag.dolar">
+            <input type="number" step="0.01" name="Dolar" class="form-control" aria-label="" value="@ViewBag.Dolar" disabled>
         </div>
 
         TCEA:
@@ -65,19 +76,18 @@
             <div class="input-group-append">
                 <span class="input-group-text">%</span>
             </div>
-            <input type="number" step="0.01" name="dolar" class="form-control disabled" disabled aria-label=""
+            <input type="number" step="0.01" name="TCEA" class="form-control" disabled aria-label=""
                 value="@ViewBag.TCEA">
         </div>
 
     </div>
     <div class="col-lg-3">
 
-        Tipo de Año:
+        Tipo de Año de la tasa:
         <div class="input-group mb-3">
-            <select class="form-control disabled" disabled>
-                @if (ViewBag.anio == 360)
+            <select class="form-control" disabled>
+                @if (ViewBag.Anio == 360)
                 {
-
                     <option value="360" selected>Ordinario</option>
                 }
                 else
@@ -92,7 +102,7 @@
             <div class="input-group-append">
                 <span class="input-group-text">S/</span>
             </div>
-            <input type="text" class="form-control disabled" disabled value="@ViewBag.gInicial" aria-label="">
+            <input type="text" class="form-control" disabled value="@ViewBag.gInicial" name="gInicio">
         </div>
 
         TEA:
@@ -100,15 +110,15 @@
             <div class="input-group-append">
                 <span class="input-group-text">%</span>
             </div>
-            <input type="text" class="form-control disabled" disabled aria-label="" value="@ViewBag.TEA">
+            <input type="text" class="form-control" disabled aria-label="" value="@ViewBag.TEA" name="TEA">
         </div>
 
     </div>
-    <div class="col-lg-3" style=" margin: auto;">
+    <div class="col-lg-3">
 
         Fecha descuento:
         <div class="input-group mb-3">
-            <input class="form-control" type="date" />
+            <input class="form-control" disabled name="FechaDescuento" type="date" value="@ViewBag.FechaDescuento">
         </div>
 
         Costes Finales:
@@ -116,7 +126,7 @@
             <div class="input-group-append">
                 <span class="input-group-text">S/</span>
             </div>
-            <input type="text" class="form-control disabled" aria-label="" disabled value="@ViewBag.gFinal">
+            <input type="number" step="0.01" name="gFinal" class="form-control" disabled value="@ViewBag.gFinal">
         </div>
 
         <button class="btn btn-success" style="width:100%" id="calculo">Calcular</button>
@@ -159,6 +169,9 @@
             <th>
                 Flujo
             </th>
+            <th>
+                TCEA
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -174,8 +187,8 @@
                 <td>
                     @(item.FechaPago.ToString("dd/MM/yyyy"))
                 </td>
-                <td style="font-weight:700; color:@(item.FechaPago.Date <= DateTime.Now.Date?"red":"green")">
-                    @(item.FechaPago.Date <= DateTime.Now.Date?"Pagado":(item.FechaPago.Date-DateTime.Now.Date).TotalDays)
+                <td style="font-weight:700; color:green">
+                    @((item.FechaPago.Date - @ViewBag.FechaDescuento).TotalDays)
                 </td>
                 <td id="TEP">
                     @item.TEP%
@@ -200,6 +213,9 @@
                 </td>
                 <td id="FLUJO">
                     @item.Flujo
+                </td>
+                <td id="TCEA">
+                    @item.TCEAUnit%
                 </td>
             </tr>
         }

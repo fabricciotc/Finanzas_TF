@@ -101,7 +101,7 @@
 
             Fecha descuento:
             <div class="input-group mb-3">
-                <input class="form-control" type="date" />
+                <input class="form-control" type="date" value="@ViewBag.gFinal"/>
             </div>
 
             Costes Finales:
@@ -168,8 +168,8 @@
                 <td>
                     @(item.FechaPago.ToString("dd/MM/yyyy"))
                 </td>
-                <td style="font-weight:700; color:@(item.FechaPago.Date <= DateTime.Now.Date?"red":"green")">
-                    @(item.FechaPago.Date <= DateTime.Now.Date?"Pagado":(item.FechaPago.Date-DateTime.Now.Date).TotalDays)
+                <td style="font-weight:700;">
+                    -
                 </td>
                 <td id="TEP">
                     -
