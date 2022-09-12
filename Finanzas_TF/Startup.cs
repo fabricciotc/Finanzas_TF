@@ -28,11 +28,10 @@ namespace Finanzas_TF
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(connectionString, serverVersion));
+
+            services.AddDbContext<ApplicationDbContext>(options => options.
+                       UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
