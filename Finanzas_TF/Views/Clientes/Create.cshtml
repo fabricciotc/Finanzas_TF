@@ -14,27 +14,31 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RazonSocial" class="control-label"></label>
-                <input asp-for="RazonSocial" class="form-control" />
+                <input asp-for="RazonSocial" class="form-control" type="text" size="35"/>
                 <span asp-validation-for="RazonSocial" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RUC" class="control-label"></label>
-                <input asp-for="RUC" class="form-control" />
+                <input asp-for="RUC" class="form-control" type="text" 
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" 
+                    pattern="[0-9]{11}"/>
                 <span asp-validation-for="RUC" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" type="email" pattern=".+@('@')\.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" type="text" 
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" 
+                    pattern="[0-9]{9}" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
+                <input asp-for="Direccion" class="form-control" required type="text"/>
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
