@@ -61,22 +61,29 @@ namespace Finanzas_TF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MontoInicial,Descripcion,IdCliente,FechaEmision,FechaPago,Moneda")] ReciboHonorarios reciboHonorarios)
         {
-            if (ModelState.IsValid)
+            if (reciboHonorarios.FechaPago < reciboHonorarios.FechaEmision){
+                ViewData["IdCliente"] = new SelectList(_context.Clientes, "Id", "Email", reciboHonorarios.IdCliente);
+                return View(reciboHonorarios);
+            }
+            if (reciboHonorarios.MontoInicial > 0 && reciboHonorarios.MontoInicial != 0) 
             {
-                reciboHonorarios.Id = Guid.NewGuid();
-                if ( (reciboHonorarios.MontoInicial > 1500 && reciboHonorarios.Moneda == 0) || (reciboHonorarios.MontoInicial * 4 > 1500 && reciboHonorarios.Moneda == 1) )
+                if (ModelState.IsValid)
                 {
-                    reciboHonorarios.Retenido = reciboHonorarios.MontoInicial * (decimal)0.08;
-                    reciboHonorarios.Monto = reciboHonorarios.MontoInicial * (decimal)0.92;
-                }
-                else
-                {
-                    reciboHonorarios.Retenido = 0;
-                    reciboHonorarios.Monto = reciboHonorarios.MontoInicial;
-                }
-                _context.Add(reciboHonorarios);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    reciboHonorarios.Id = Guid.NewGuid();
+                    if ((reciboHonorarios.MontoInicial > 1500 && reciboHonorarios.Moneda == 0) || (reciboHonorarios.MontoInicial * 4 > 1500 && reciboHonorarios.Moneda == 1))
+                    {
+                        reciboHonorarios.Retenido = reciboHonorarios.MontoInicial * (decimal)0.08;
+                        reciboHonorarios.Monto = reciboHonorarios.MontoInicial * (decimal)0.92;
+                    }
+                    else
+                    {
+                        reciboHonorarios.Retenido = 0;
+                        reciboHonorarios.Monto = reciboHonorarios.MontoInicial;
+                    }
+                    _context.Add(reciboHonorarios);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } 
             }
             ViewData["IdCliente"] = new SelectList(_context.Clientes, "Id", "Email", reciboHonorarios.IdCliente);
             return View(reciboHonorarios);
@@ -110,7 +117,16 @@ namespace Finanzas_TF.Controllers
             {
                 return NotFound();
             }
-
+            if(reciboHonorarios.MontoInicial==0 || reciboHonorarios.Monto < 0)
+            {
+                ViewData["IdCliente"] = new SelectList(_context.Clientes, "Id", "Email", reciboHonorarios.IdCliente);
+                return View(reciboHonorarios);
+            }
+            if (reciboHonorarios.FechaPago < reciboHonorarios.FechaEmision)
+            {
+                ViewData["IdCliente"] = new SelectList(_context.Clientes, "Id", "Email", reciboHonorarios.IdCliente);
+                return View(reciboHonorarios);
+            }
             if (ModelState.IsValid)
             {
                 try
