@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Finanzas_TF.Data;
 using Finanzas_TF.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace Finanzas_TF.Controllers
 {
@@ -50,7 +51,22 @@ namespace Finanzas_TF.Controllers
         {
             return View();
         }
+        static bool validateEmail(string email)
+        {
+            if (email == null)
+            {
+                return false;
+            }
+            if (new EmailAddressAttribute().IsValid(email))
+            {
+                return true;
+            }
+            else
+            {
 
+                return false;
+            }
+        }
         // POST: Clientes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -58,6 +74,53 @@ namespace Finanzas_TF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,RazonSocial,RUC,Email,Telefono,Direccion")] Cliente cliente)
         {
+            if(cliente.RazonSocial==null || cliente.RazonSocial == String.Empty)
+            {
+                ViewBag.Error = "Razon social no puede ser nula o vacia";
+                return View(cliente);
+            }
+            bool successfullyParsed = int.TryParse(cliente.RUC, out var ignoreMe);
+            bool successfullyParsedTE = int.TryParse(cliente.Telefono, out var ignoreMeTE);
+            if (!successfullyParsedTE)
+            {
+                ViewBag.Error = "El telefono debe contener solo numeros";
+                return View(cliente);
+            }
+            if (!successfullyParsed)
+            {
+                ViewBag.Error = "RUC debe ser solo numeros";
+                return View(cliente);
+            }
+            if (cliente.RUC.Length!=11)
+            {
+                ViewBag.Error = "RUC debe ser de 11 digitos";
+
+                return View(cliente);
+            }
+            if (!validateEmail(cliente.Email))
+            {
+                ViewBag.Error = "No es un email valido";
+
+                return View(cliente);
+            }
+            if (cliente.RUC.Length !=9)
+            {
+                ViewBag.Error = "El Telefono debe ser de 9 digitos";
+
+                return View(cliente);
+            }
+            if (cliente.RUC == null || cliente.RUC == String.Empty)
+            {
+                ViewBag.Error = "RUC no peude ser nulo o vacio";
+
+                return View(cliente);
+            }
+            if (cliente.RUC == null || cliente.RUC == String.Empty)
+            {
+                ViewBag.Error = "RUC no peude ser nulo o vacio";
+
+                return View(cliente);
+            }
             if (ModelState.IsValid)
             {
                 cliente.RazonSocial = cliente.RazonSocial.ToUpper();
@@ -96,7 +159,53 @@ namespace Finanzas_TF.Controllers
             {
                 return NotFound();
             }
+            if (cliente.RazonSocial == null || cliente.RazonSocial == String.Empty)
+            {
+                ViewBag.Error = "Razon social no puede ser nula o vacia";
+                return View(cliente);
+            }
+            bool successfullyParsed = int.TryParse(cliente.RUC, out var ignoreMe);
+            bool successfullyParsedTE = int.TryParse(cliente.Telefono, out var ignoreMeTE);
+            if (!successfullyParsedTE)
+            {
+                ViewBag.Error = "El telefono debe contener solo numeros";
+                return View(cliente);
+            }
+            if (!successfullyParsed)
+            {
+                ViewBag.Error = "RUC debe ser solo numeros";
+                return View(cliente);
+            }
+            if (cliente.RUC.Length != 11)
+            {
+                ViewBag.Error = "RUC debe ser de 11 digitos";
 
+                return View(cliente);
+            }
+            if (!validateEmail(cliente.Email))
+            {
+                ViewBag.Error = "No es un email valido";
+
+                return View(cliente);
+            }
+            if (cliente.RUC.Length != 9)
+            {
+                ViewBag.Error = "El Telefono debe ser de 9 digitos";
+
+                return View(cliente);
+            }
+            if (cliente.RUC == null || cliente.RUC == String.Empty)
+            {
+                ViewBag.Error = "RUC no peude ser nulo o vacio";
+
+                return View(cliente);
+            }
+            if (cliente.RUC == null || cliente.RUC == String.Empty)
+            {
+                ViewBag.Error = "RUC no peude ser nulo o vacio";
+
+                return View(cliente);
+            }
             if (ModelState.IsValid)
             {
                 try
